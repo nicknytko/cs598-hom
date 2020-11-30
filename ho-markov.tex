@@ -1,0 +1,126 @@
+%%
+% Please see https://bitbucket.org/rivanvx/beamer/wiki/Home for obtaining beamer.
+%%
+\documentclass{beamer}
+\usetheme{Warsaw}
+
+\title{Higher Order Markov Chains and Spacey Walks}
+\author{Nicolas Nytko}
+\date{\today}
+
+\begin{document}
+\frame{\titlepage}
+
+% Review of first-order markov chains
+\begin{frame}
+\frametitle{Markov Chains}
+{\bf Markov Chains} are stochastic models describing a sequence of states with a probability of transitioning between each.
+\begin{itemize}
+\item Defined as matrix: ${\bf P} \in \mathbb{R}^{n\times n}$, ${\bf P}_{ij}$ gives probability of moving to state $i$ from $j$, for chain with $n$ states.
+\item Given distribution/state vector ${\bf x}^{(n)}$, one step of a random walk is represented by matrix-vector product ${\bf x}^{(n+1)} = {\bf P} {\bf x}^{(n)} \enskip \Leftrightarrow \enskip x^{(n+1)}_i = \sum_j P_{ij} x^{(n)}_j $.
+\end{itemize}
+
+\begin{block}{Definition}
+{\bf Time homogeneous}: each transition probability is independent of the time step $t$.
+\end{block}
+
+\begin{block}{Definition}
+{\bf Irreducible}: every state can be reached from every other state.
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Canonical Examples}
+
+\textbf{Google PageRank}
+\begin{itemize}
+\item Markov chain represents the ``idealized'' web surfer.  States are webpages and transition probability is given by number of outgoing links between pages.
+\item Ranking is determined by probability of being on certain page.
+\end{itemize}
+
+\textbf{Board Games}
+\begin{itemize}
+\item Each spot on game board is a state.
+\item Probability of moving between spots is given by dice, spinner, etc.
+\end{itemize}
+
+\textbf{Weather}
+\begin{itemize}
+\item States are possible weather conditions.
+\item Tomorrow's weather is randomly chosen based on today's conditions.
+\end{itemize}
+
+\end{frame}
+
+
+% Introduction of steady-state distribution
+\begin{frame}
+\frametitle{Steady-State Distribution}
+
+\textbf{Steady state} vector $\boldsymbol{\pi} \in \mathbb{R}^n$ does not change when multiplied by Markov chain:
+\[ \boldsymbol{\pi} = {\bf P} \boldsymbol{\pi} \]
+
+\begin{itemize}
+\item Average distribution as random walk tends to length infinity, $\lim_{k\to\infty} {\bf P}^k{\bf x}$
+\item Is equivalent to \textbf{Perron vector} of matrix, dominant eigenvector with nonnegative components.
+\item Compute iteratively with power method: ${\bf x}^{(k+1) } = {\bf Px}^{(k)}$.
+\end{itemize}
+
+\begin{block}{Remark}
+Unique steady states are guaranteed for \textbf{irreducible} Markov chains.
+\end{block}
+\end{frame}
+
+% Introduce higher order chains as matricised tensors
+\begin{frame}
+\frametitle{Markov Chains with Memory}
+What if we want our chain to \textbf{remember} where it has been?  Introduce \textbf{$\boldsymbol{m}$-order Markov chain}, where transition probability depends on previous $m$ states.  
+\begin{itemize}
+\item Probability is now stored as ${\bf P} \in \mathbb{R}^{n^m \times n}$, where rows are  a $m$-tuple of each state permutation.
+\item Random step is still mat-vec, state vector ${\bf x}$ now stores distribution of each  state permutation $m$-tuple.
+\end{itemize}
+\end{frame}
+
+
+% Introduce higher order chain
+\begin{frame}
+\frametitle{Higher Order Markov Chains}
+\begin{itemize}
+\item But, since we know about tensors we can do better.
+\item Transition probability is represented as $m+1$ order Tensor.
+\item Probability to transition given by ${\mathcal P}_{i_{(n+1)},i_{(n)},i_{(n-1)},\ldots,i_{(n-m+1)}}$
+\begin{itemize}
+\item Example for second order: ${\mathcal P}_{ijk}$ describes transition probability to state $i$ from current state $j$ and previous state $k$.
+\end{itemize}
+\item Tensor form gives nice analysis properties --- will see later.
+\item State/distribution is stored as order $m$ tensor, 
+\item Random step is given by contraction over first mode $X_{i_{(m+1)},\ldots,i_{(2)}}^{(n+1)} = \sum_{i_{(1)}} P_{ i_{(m+1)}, \ldots, i_{(1)} } X_{ i_{(m)}, \ldots, i_{(1)} }^{(n)} $
+\end{itemize}
+	
+\end{frame}
+
+\begin{frame}
+\frametitle{Higher Order Steady-State Distribution}
+\end{frame}
+
+
+
+\begin{frame}	
+\frametitle{Spacey Walks}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Applications, Examples}
+\end{frame}
+
+\begin{frame}
+\frametitle{References}
+\nocite*{}
+\bibliographystyle{plain}
+\bibliography{ho-markov}
+\end{frame}
+
+\end{document}
