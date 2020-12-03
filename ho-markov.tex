@@ -8,6 +8,10 @@
 \usepackage{bigstrut}
 \usepackage{amsmath}
 
+\makeatletter
+\let\BA@quicktrue\BA@quickfalse
+\makeatother
+
 \title{Higher Order Markov Chains and Spacey Walks}
 \author{Nicolas Nytko}
 \date{\today}
@@ -25,15 +29,60 @@
 \end{itemize}
 
 \begin{block}{}
-{\bf Time homogeneous}: each transition probability is independent of the time step $t$.
-\end{block}
+\begin{columns}
+\begin{column}{0.5\linewidth}
+\centering
+\includegraphics[scale=0.075]{images/markov.png}
+\end{column}
 
-\begin{block}{}
-{\bf Irreducible}: every state can be reached from every other state.
+\begin{column}{0.5\linewidth}
+\centering
+Transition matrix:
+\[{\bf P} = 
+\begin{blockarray}{ccc}
+  & A & E \\
+	\begin{block}{c[cc]}
+		\bigstrut[t]
+		A & 0.6 & 0.7 \\
+		E & 0.4 & 0.3
+		\bigstrut[b] \\
+	\end{block}
+\end{blockarray}
+\]
+\end{column}
+\end{columns}
+
+\begin{center}
+\begin{tiny}
+Figure from \url{https://commons.wikimedia.org/wiki/File:Markovkate_01.svg}
+\end{tiny}
+\end{center}
 \end{block}
 
 \end{frame}
 
+
+% Various definitions
+\begin{frame}
+\frametitle{Definitions}
+\begin{block}{Time Homogeneous}
+Each transition probability is independent of the time step $t$.
+\end{block}
+
+\begin{block}{Irreducible}
+Every state can be reached from every other state.
+\end{block}
+
+\begin{block}{Periodic}
+Periodic markov chain:
+\[ \exists i \in S \quad s.t. \quad P_{ii} = 0\]
+Periodicity implies a state may only return to itself after some multiple $d$ ``hops''.  If every state has self loops the chain is \textbf{aperiodic}.
+\end{block}
+
+\end{frame}
+
+
+% Examples
 \begin{frame}
 \frametitle{Canonical Examples}
 
@@ -74,51 +123,48 @@
 \end{itemize}
 
 \begin{block}{}
-Unique steady states are guaranteed for \textbf{irreducible} Markov chains.
+Unique steady states are guaranteed for \textbf{irreducible}, \textbf{aperiodic} Markov chains.
 \end{block}
+
 \end{frame}
 
 % Introduce higher order chains as matricised tensors
 \begin{frame}
 \frametitle{Markov Chains with Memory}
-What if we want our chain to \textbf{remember} where it has been?  Introduce \textbf{$\boldsymbol{m}$-order Markov chain}, where transition probability depends on previous $m$ states.  
+What if we want our chain to \textbf{remember} where it has been?  Introduce $\boldsymbol{m}$-\textbf{order Markov chain}, where transition probability depends on previous $m$ states.  
+
 \begin{itemize}
 \item Probability is now stored as ${\bf P} \in \mathbb{R}^{n \times n^m}$, where columns are a $m$-tuple of each state permutation.
 \item Random step becomes slightly more complicated than just a \textit{mat-vec}, will see a better way of doing this.
 \end{itemize}
 
-%\[ {\bf P} = 
-%\begin{blockarray}{ccc}
-% & s_0 & s_1 \\
-%\begin{block}{c[cc]}
-%  \bigstrut[t] 
-%  \left(s_0, s_0\right) & p_{0,0} & p_{0,1} \\
-%  \left(s_0, s_1\right) & p_{1,0} & p_{1,1} \\
-%  \left(s_1, s_0\right) & p_{2,0} & p_{2,1} \\
-%  \left(s_1, s_1\right) & p_{3,0} & p_{3,1}
-%  \bigstrut[b]
-%\end{block}
-%\end{blockarray} \]
+%\begin{block}{}
 
-\begin{block}{}
-\[{\bf P} = 
+%{\bf P} =
+%\begin{blockarray}{ccccc}
+% & \left(s_0, s_0\right) & \left(s_0, s_1\right) & \left(s_1, s_0\right) & \left(s_1, %s_1\right) \\
+%  \begin{block}{c[cccc]}
+%	\bigstrut[t]
+%	s_0 & p_{1,1} & p_{1,2} & p_{1,3} & p_{1,4} \\
+%	s_1 & p_{2,1} & p_{2,2} & p_{2,3} & p_{2,4}
+%	\bigstrut[b]
+%  \end{block}
+%\end{blockarray}
+\[
+{\bf P} = 
 \begin{blockarray}{ccccc}
-	& \left(s_0, s_0\right) & \left(s_0, s_1\right) & \left(s_1, s_0\right) & \left(s_1, s_1\right) \\
+	1 & 2 & 3 & 4 & 5 \\
 	\begin{block}{c[cccc]}
-		\bigstrut[t]
-		s_0 & p_{1,1} & p_{1,2} & p_{1,3} & p_{1,4} \\
-		s_1 & p_{2,1} & p_{2,2} & p_{2,3} & p_{2,4}
-		\bigstrut[b]
+		6 & 7 & 8 & 9 & 10 \\
 	\end{block}
-\end{blockarray}\]
+\end{blockarray}
+\]
 
-\begin{center}
-\begin{small}
+\begin{tiny}
 (Example indexing for $2^{\text{nd}}$ order chain with $n=2$ states.)
-\end{small}
-\end{center}
+\end{tiny}
 
-\end{block}
+%\end{block}
 
 \end{frame}
 
@@ -144,6 +190,7 @@ Transition probability indexed by $P_{i_{(n+1)},i_{(n)},i_{(n-1)},\ldots,i_{(n-m
 	
 \end{frame}
 
+% Higher order markov as tensor
 \begin{frame}
 \frametitle{Higher Order Steady-State Distribution}
 
@@ -162,18 +209,17 @@ Actually just the \textbf{$\boldsymbol{z}$-eigenvector} of $\mathcal{P}$!
 
 \end{frame}
 
-
-
+% Spacey walks
 \begin{frame}	
 \frametitle{Spacey Walks}
 \end{frame}
 
-
-
+% Applications, examples
 \begin{frame}
 \frametitle{Applications, Examples}
 \end{frame}
 
+% References
 \begin{frame}
 \frametitle{References}
 \nocite*{}
