@@ -20,6 +20,18 @@
 \begin{document}
 \frame{\titlepage}
 
+% Overview
+\begin{frame}
+  \frametitle{Overview}
+  \begin{enumerate}
+  \item Introduction/review of first-order Markov chains
+  \item Higher order Markov chains, relation to tensors
+  \item Stochastic walks on higher order Markov chains
+  \item Applications of the Spacey walk
+  \end{enumerate}
+\end{frame}
+
+
 % Review of first-order markov chains
 \begin{frame}
 \frametitle{Markov Chains}
@@ -238,14 +250,68 @@ Transition probability is then given by:
 P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
 \end{equation*}
 
-
 \end{block}
 
 \end{frame}
 
+
+% Vertex-reinforced random walk
+\begin{frame}
+  \frametitle{Vertex-reinforced random walks}
+  This spacey walk is an instance of a \textbf{vertex-reinforced random walk}.  I.e., a walk that always picks next state based on transition probabilities, but probabilities evolve over time.
+
+  \begin{block}{Vertex-reinforced walk}
+    \begin{equation*}
+      w_i\left(n\right) = \frac{1}{N+n}\left(1 + \sum_{s=1}^n \mathbbm{1}\left(X(s)=i\right) \right)
+    \end{equation*}
+    \begin{equation*}
+      P\left(X(n+1) = i \:|\: \mathcal{F}_n\right) = \left[{\bf M} \left({\bf w}(n)\right)\right]_{i,X\left(n\right)}
+    \end{equation*}
+
+    Where ${\bf M}$ maps the \textit{occupation vector} ${\bf w}$ to a stochastic matrix ${\bf P}\in\mathbb{R}^{N\times N}$.
+  \end{block}
+
+  For spacey walks, define:
+  \[ M\left({\bf w}\right) = \sum_{k=1}^N P_{k,:,:} w_k \]
+\end{frame}
+
+
+% Vertex walk <=> ODE
+\begin{frame}
+  \frametitle{Vertex-reinforced walks and ODEs}
+  Why care about turning the \textbf{spacey walk} into a \textbf{vertex-reinforced walk}?
+  \begin{block}{}
+    Gives us the key relationship:
+    \[ \frac{d{\bf x}}{dt} = \pi\left({\bf M}\left({\bf x}\right)\right) - {\bf x} \]
+    For some $\pi$ that maps transition matrices to a stationary distribution.
+  \end{block}
+  So, to find the tensor eigenvector ${\bf x}$, we can solve the ODE for its \textbf{fixed points}.
+\end{frame}
+
+
+% Dynamics examples
+\begin{frame}
+  \frametitle{Dynamics}
+\end{frame}
+
+
 % Applications, examples
 \begin{frame}
-\frametitle{Applications, Examples}
+  \frametitle{P\'{o}lya Urn}
+  \begin{columns}
+    \begin{column}{0.4\linewidth}
+      \centering
+      \includegraphics[width=\linewidth]{images/polya.png}
+    \end{column}
+    \begin{column}{0.6\linewidth}
+      For simple example of the Spacey walk, consider P\'{o}lya Urn process.  Have urn with red and green balls inside, and repeat the following process:
+      \begin{enumerate}
+      \item Select a random ball from the urn
+      \item Put the random ball back in the urn
+      \item Put another ball of same selected color in the urn
+      \end{enumerate}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 % References
