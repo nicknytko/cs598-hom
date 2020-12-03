@@ -38,7 +38,7 @@
 \begin{column}{0.5\linewidth}
 \centering
 Transition matrix:
-\[{\bf P} = 
+\[{\bf P} =
 \begin{blockarray}{ccc}
   & A & E \\
 	\begin{block}{c[cc]}
@@ -131,40 +131,34 @@ Unique steady states are guaranteed for \textbf{irreducible}, \textbf{aperiodic}
 % Introduce higher order chains as matricised tensors
 \begin{frame}
 \frametitle{Markov Chains with Memory}
-What if we want our chain to \textbf{remember} where it has been?  Introduce $\boldsymbol{m}$-\textbf{order Markov chain}, where transition probability depends on previous $m$ states.  
+What if we want our chain to \textbf{remember} where it has been?  Introduce $\boldsymbol{m}$-\textbf{order Markov chain}, where transition probability depends on previous $m$ states.
 
 \begin{itemize}
 \item Probability is now stored as ${\bf P} \in \mathbb{R}^{n \times n^m}$, where columns are a $m$-tuple of each state permutation.
 \item Random step becomes slightly more complicated than just a \textit{mat-vec}, will see a better way of doing this.
 \end{itemize}
 
-%\begin{block}{}
+\begin{block}{}
 
-%{\bf P} =
-%\begin{blockarray}{ccccc}
-% & \left(s_0, s_0\right) & \left(s_0, s_1\right) & \left(s_1, s_0\right) & \left(s_1, %s_1\right) \\
-%  \begin{block}{c[cccc]}
-%	\bigstrut[t]
-%	s_0 & p_{1,1} & p_{1,2} & p_{1,3} & p_{1,4} \\
-%	s_1 & p_{2,1} & p_{2,2} & p_{2,3} & p_{2,4}
-%	\bigstrut[b]
-%  \end{block}
-%\end{blockarray}
 \[
-{\bf P} = 
+{\bf P} =
 \begin{blockarray}{ccccc}
-	1 & 2 & 3 & 4 & 5 \\
-	\begin{block}{c[cccc]}
-		6 & 7 & 8 & 9 & 10 \\
-	\end{block}
+& \left(s_0, s_0\right) & \left(s_0, s_1\right) & \left(s_1, s_0\right) & \left(s_1, s_1\right) \\
+ \begin{block}{c[cccc]}
+	\bigstrut[t]
+	s_0 & p_{1,1} & p_{1,2} & p_{1,3} & p_{1,4} \\
+	s_1 & p_{2,1} & p_{2,2} & p_{2,3} & p_{2,4}
+	\bigstrut[b] \\
+ \end{block}
 \end{blockarray}
 \]
 
+\centering
 \begin{tiny}
 (Example indexing for $2^{\text{nd}}$ order chain with $n=2$ states.)
 \end{tiny}
 
-%\end{block}
+\end{block}
 
 \end{frame}
 
@@ -175,7 +169,7 @@ What if we want our chain to \textbf{remember} where it has been?  Introduce $\b
 We can \textbf{fold the last dimension} of the higher-order Markov matrix to obtain a higher dimensional \textbf{tensor}.
 
 \begin{block}{}
-Order $m$ Markov chain with $n$ states is order $m+1$ tensor 
+Order $m$ Markov chain with $n$ states is order $m+1$ tensor
 
 \[\mathcal{P} \in \mathbb{R}^{\overbrace{n\times n\times \cdots \times n}^{m+1\text{ dimensions}}}\]
 
@@ -187,7 +181,7 @@ Transition probability indexed by $P_{i_{(n+1)},i_{(n)},i_{(n-1)},\ldots,i_{(n-m
 \item Example random step for order 2 Markov chain: $X^{(n+1)}_{ij} = \sum_k P_{ijk} X^{(n+1)}_{jk}$
 \item Tensor form gives nice analysis properties --- will see shortly.
 \end{itemize}
-	
+
 \end{frame}
 
 % Higher order markov as tensor
@@ -198,7 +192,7 @@ Transition probability indexed by $P_{i_{(n+1)},i_{(n)},i_{(n-1)},\ldots,i_{(n-m
 \textbf{Steady state} tensor ${\bf X} \in \mathbb{R}^{n \times n}$ does not change when multiplied along first mode.
 \[ X_{ij} = \sum_k P_{ijk} X_{jk} \]
 \end{block}
-\begin{itemize}	
+\begin{itemize}
 \item Conceptually simple, but requires $\mathcal{O}\left(n^m\right)$ space to store state tensor.
 \end{itemize}
 \begin{block}{}
@@ -210,7 +204,7 @@ Actually just the \textbf{$\boldsymbol{z}$-eigenvector} of $\mathcal{P}$!
 \end{frame}
 
 % Spacey walks
-\begin{frame}	
+\begin{frame}
 \frametitle{Spacey Walks}
 \end{frame}
 
