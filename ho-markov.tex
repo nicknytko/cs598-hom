@@ -7,6 +7,7 @@
 \usepackage{blkarray}
 \usepackage{bigstrut}
 \usepackage{amsmath}
+\usepackage{bbm}
 
 \makeatletter
 \let\BA@quicktrue\BA@quickfalse
@@ -32,7 +33,7 @@
 \begin{columns}
 \begin{column}{0.5\linewidth}
 \centering
-\includegraphics[scale=0.075]{images/markov.png}
+\includegraphics[scale=0.072]{images/markov.png}
 \end{column}
 
 \begin{column}{0.5\linewidth}
@@ -138,33 +139,27 @@ What if we want our chain to \textbf{remember} where it has been?  Introduce $\b
 \item Random step becomes slightly more complicated than just a \textit{mat-vec}, will see a better way of doing this.
 \end{itemize}
 
-%\begin{block}{}
+\begin{block}{}
 
-%{\bf P} =
-%\begin{blockarray}{ccccc}
-% & \left(s_0, s_0\right) & \left(s_0, s_1\right) & \left(s_1, s_0\right) & \left(s_1, %s_1\right) \\
-%  \begin{block}{c[cccc]}
-%	\bigstrut[t]
-%	s_0 & p_{1,1} & p_{1,2} & p_{1,3} & p_{1,4} \\
-%	s_1 & p_{2,1} & p_{2,2} & p_{2,3} & p_{2,4}
-%	\bigstrut[b]
-%  \end{block}
-%\end{blockarray}
 \[
-{\bf P} = 
+{\bf P} =
 \begin{blockarray}{ccccc}
-	1 & 2 & 3 & 4 & 5 \\
-	\begin{block}{c[cccc]}
-		6 & 7 & 8 & 9 & 10 \\
-	\end{block}
+ & \left(s_0, s_0\right) & \left(s_0, s_1\right) & \left(s_1, s_0\right) & \left(s_1, s_1\right) \\
+  \begin{block}{c[cccc]}
+	\bigstrut[t]
+	s_0 & p_{1,1} & p_{1,2} & p_{1,3} & p_{1,4} \\
+	s_1 & p_{2,1} & p_{2,2} & p_{2,3} & p_{2,4}
+	\bigstrut[b] \\ 
+  \end{block}
 \end{blockarray}
 \]
 
+\centering
 \begin{tiny}
 (Example indexing for $2^{\text{nd}}$ order chain with $n=2$ states.)
 \end{tiny}
 
-%\end{block}
+\end{block}
 
 \end{frame}
 
@@ -209,9 +204,43 @@ Actually just the \textbf{$\boldsymbol{z}$-eigenvector} of $\mathcal{P}$!
 
 \end{frame}
 
+% Stochastic process
+\begin{frame}
+\frametitle{Stochastic Processes}
+
+\begin{itemize}
+\item For first order, steady state/eigenvector can be represented by a {\bf random walk}.
+\item Our low rank transformation:
+\[ X_{ij} = \sum_k P_{ijk} X_{jk} \quad \Rightarrow \quad x_i = \sum_{jk} P_{ijk} x_j x_k \]
+is algebraic, is there a {\bf stochastic} process?
+\end{itemize}
+
+\end{frame}
+
+
 % Spacey walks
 \begin{frame}	
 \frametitle{Spacey Walks}
+
+Present the concept of a \textbf{spacey walk}: upon reaching a new state we \textit{space out} and forget all previous states.  State history is then \textbf{randomly made up} from previously seen states.
+
+\begin{block}{}
+
+Let $X\left(0\right), X\left(1\right), \ldots, X\left(n\right)$ be the sequence of visited states and $N$ to be the number of states.  Define $Y\left(n\right)$ as a random previously seen state, each weighted by number of occurrences:
+
+\begin{equation*}
+P\left(Y(n) = k \:|\: \mathcal{F}_n \right) = \frac{1}{n+N}\left(1 + \sum_{s=1}^n \mathbbm{1}\left(X\left(s) = k\right) \right) \right)
+\end{equation*}
+
+Transition probability is then given by:
+
+\begin{equation*}
+P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
+\end{equation*}
+
+
+\end{block}
+
 \end{frame}
 
 % Applications, examples
