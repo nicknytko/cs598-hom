@@ -1,6 +1,3 @@
-%%
-% Please see https://bitbucket.org/rivanvx/beamer/wiki/Home for obtaining beamer.
-%%
 \documentclass{beamer}
 \usetheme{Warsaw}
 
@@ -289,9 +286,35 @@ P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
 \end{frame}
 
 
-% Dynamics examples
+% ODE <=> Tensor Z-Eigenvector
 \begin{frame}
-  \frametitle{Dynamics}
+  \frametitle{Solution to Steady State}
+  \begin{itemize}
+  \item Now reduced eigenvector problem to matter of \textbf{integrating an ODE}.
+  \item Can offer better convergence properties than traditional power method/fixed point iteration.
+  \item Take following periodic Markov chain as example:
+  \end{itemize}
+  \[ \mathcal{F}_{\left(1\right)} =
+    \left[
+      \begin{array}{@{}cc|cc@{}}
+        0 & 1 & 1 & 1 \\
+        1 & 0 & 0 & 0
+      \end{array}
+    \right]
+  \]
+
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
+      When using power iteration:
+      \[ {\bf x}^{n+1}_i = \sum_{jk} P_{ijk}x_jx_K \]
+      Oscillates between $\begin{bmatrix}0&1\end{bmatrix}^T$ and $\begin{bmatrix}1&0\end{bmatrix}^T$.
+    \end{column}
+    \begin{column}{0.5\linewidth}
+      Forward-stepping ODE
+      \[ \frac{d{\bf x}}{dt} = \pi\left({\bf M}\left({\bf x}\right)\right) - {\bf x} \]
+      with Euler converges to analytical solution $\begin{bmatrix} \left(\sqrt{2}-1\right)/2 & \left(3-\sqrt{5}\right)/2  \end{bmatrix}^T$.
+    \end{column}
+  \end{columns}
 \end{frame}
 
 
@@ -304,14 +327,27 @@ P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
       \includegraphics[width=\linewidth]{images/polya.png}
     \end{column}
     \begin{column}{0.6\linewidth}
-      For simple example of the Spacey walk, consider P\'{o}lya Urn process.  Have urn with red and green balls inside, and repeat the following process:
+      For simple example of the Spacey walk, consider \textbf{P\'{o}lya Urn} process.  Have urn with red and green balls inside, and repeat the following process:
       \begin{enumerate}
       \item Select a random ball from the urn
       \item Put the random ball back in the urn
       \item Put another ball of same selected color in the urn
       \end{enumerate}
+
+      \[ \mathcal{P}_{\left(1\right)} =
+        \left[
+          \begin{array}{@{}cc|cc@{}}
+            1 & 1 & 0 & 0 \\
+            0 & 0 & 1 & 1
+          \end{array}
+        \right]
+      \]
     \end{column}
   \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Population Genetics}
 \end{frame}
 
 % References

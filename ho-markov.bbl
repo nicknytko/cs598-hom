@@ -1,0 +1,15 @@
+\begin{thebibliography}{1}
+
+\bibitem{Benson2017}
+Austin~R. Benson, David~F. Gleich, and Lek-Heng Lim.
+\newblock The spacey random walk: A stochastic process for higher-order data.
+\newblock {\em {SIAM} Review}, 59(2):321--345, January 2017.
+
+\bibitem{Bozorgmanesh2016}
+Hassan Bozorgmanesh and Masoud Hajarian.
+\newblock Convergence of a transition probability tensor of a higher-order
+  markov chain to the stationary probability vector.
+\newblock {\em Numerical Linear Algebra with Applications}, 23(6):972--988,
+  August 2016.
+
+\end{thebibliography}
