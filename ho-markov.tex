@@ -85,7 +85,7 @@ Every state can be reached from every other state.
 
 \begin{block}{Periodic}
 Periodic markov chain:
-\[ \exists i \in S \quad s.t. \quad P_{ii} = 0\]
+\[ \exists i \in S \quad s.t. \quad \left(P^d\right)_{ii} \neq 0; \quad d\in\mathbb{Z},d>1 \]
 Periodicity implies a state may only return to itself after some multiple $d$ ``hops''.  If every state has self loops the chain is \textbf{aperiodic}.
 \end{block}
 
@@ -153,7 +153,7 @@ What if we want our chain to \textbf{remember} where it has been?  Introduce $\b
 \[
 {\bf P} =
 \begin{blockarray}{ccccc}
-& \left(s_0, s_0\right) & \left(s_0, s_1\right) & \left(s_1, s_0\right) & \left(s_1, s_1\right) \\
+& \left(s_0, s_0\right) & \left(s_1 , s_0\right) & \left(s_0, s_1\right) & \left(s_1, s_1\right) \\
  \begin{block}{c[cccc]}
 	\bigstrut[t]
 	s_0 & p_{1,1} & p_{1,2} & p_{1,3} & p_{1,4} \\
@@ -189,14 +189,34 @@ Transition probability indexed by $P_{i_{(n+1)},i_{(n)},i_{(n-1)},\ldots,i_{(n-m
 \begin{itemize}
 \item State/distribution is stored as order $m$ tensor.
 \item Example random step for order 2 Markov chain: $X^{(n+1)}_{ij} = \sum_k P_{ijk} X^{(n+1)}_{jk}$
-\item Tensor form gives nice analysis properties --- will see shortly.
 \end{itemize}
 
+\end{frame}
+
+% Notation
+\begin{frame}
+\frametitle{Tensor Notation}
+\begin{itemize}
+
+\item Will write tensors as flattening along first mode, i.e. for $\mathcal{P} \in \mathbb{R}^{2 \times 2 \times 2}$:
+	\[ \mathcal{P} = \left[
+      \begin{array}{@{}cc|cc@{}}
+        p_{111} & p_{121} & p_{112} & p_{122} \\
+        P_{211} & p_{221} & p_{212} & p_{222}
+      \end{array}
+    \right]
+ \]	
+\item Each slice is referred to as a \textbf{panel}, enumerates transition probabilities given some previous state.
+ 
+\item Note each panel is its own \textbf{stochastic matrix}.
+\end{itemize}
 \end{frame}
 
 % Higher order markov as tensor
 \begin{frame}
 \frametitle{Higher Order Steady-State Distribution}
+
+Assume 2nd order chains in following slides for notational simplicity -- everything generalizes to higher orders though.
 
 \begin{block}{}
 \textbf{Steady state} tensor ${\bf X} \in \mathbb{R}^{n \times n}$ does not change when multiplied along first mode.
@@ -252,6 +272,39 @@ P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
 \end{frame}
 
 
+% Polya Urn
+\begin{frame}
+  \frametitle{P\'{o}lya Urn}
+  \begin{columns}
+    \begin{column}{0.4\linewidth}
+      \centering
+      \includegraphics[width=\linewidth]{images/polya.png}
+      \begin{center}
+		\tiny
+		\url{https://commons.wikimedia.org/wiki/File:Urn_problem_qtl5.svg}
+      \end{center}
+    \end{column}
+    \begin{column}{0.6\linewidth}
+      For simple example of the Spacey walk, consider \textbf{P\'{o}lya Urn} process.  Have urn with red and green balls inside, and repeat the following process:
+      \begin{enumerate}
+      \item Select a random ball from the urn
+      \item Put the random ball back in the urn
+      \item Put another ball of same selected color in the urn
+      \end{enumerate}
+
+      \[ \mathcal{P}_{\left(1\right)} =
+        \left[
+          \begin{array}{@{}cc|cc@{}}
+            1 & 1 & 0 & 0 \\
+            0 & 0 & 1 & 1
+          \end{array}
+        \right]
+      \]
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
 % Vertex-reinforced random walk
 \begin{frame}
   \frametitle{Vertex-reinforced random walks}
@@ -269,7 +322,7 @@ P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
   \end{block}
 
   For spacey walks, define:
-  \[ M\left({\bf w}\right) = \sum_{k=1}^N P_{k,:,:} w_k \]
+  \[ M\left({\bf w}\right) = \sum_{k=1}^N P_{:,:,k} w_k \]
 \end{frame}
 
 
@@ -278,11 +331,12 @@ P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
   \frametitle{Vertex-reinforced walks and ODEs}
   Why care about turning the \textbf{spacey walk} into a \textbf{vertex-reinforced walk}?
   \begin{block}{}
-    Gives us the key relationship:
+    Lets us model chain as a \textbf{dynamical system}:
     \[ \frac{d{\bf x}}{dt} = \pi\left({\bf M}\left({\bf x}\right)\right) - {\bf x} \]
     For some $\pi$ that maps transition matrices to a stationary distribution.
   \end{block}
-  So, to find the tensor eigenvector ${\bf x}$, we can solve the ODE for its \textbf{fixed points}.
+  So, to find the tensor eigenvector ${\bf x}$, we can solve the ODE for its \textbf{fixed points}:
+  \[ \frac{d{\bf x}}{dt} = 0 \quad \Longleftrightarrow \quad x_i = \sum_{ij}P_{ijk}x_jx_k \]
 \end{frame}
 
 
@@ -317,38 +371,64 @@ P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
   \end{columns}
 \end{frame}
 
-
-% Applications, examples
-\begin{frame}
-  \frametitle{P\'{o}lya Urn}
-  \begin{columns}
-    \begin{column}{0.4\linewidth}
-      \centering
-      \includegraphics[width=\linewidth]{images/polya.png}
-    \end{column}
-    \begin{column}{0.6\linewidth}
-      For simple example of the Spacey walk, consider \textbf{P\'{o}lya Urn} process.  Have urn with red and green balls inside, and repeat the following process:
-      \begin{enumerate}
-      \item Select a random ball from the urn
-      \item Put the random ball back in the urn
-      \item Put another ball of same selected color in the urn
-      \end{enumerate}
-
-      \[ \mathcal{P}_{\left(1\right)} =
-        \left[
-          \begin{array}{@{}cc|cc@{}}
-            1 & 1 & 0 & 0 \\
-            0 & 0 & 1 & 1
-          \end{array}
-        \right]
-      \]
-    \end{column}
-  \end{columns}
-\end{frame}
-
+% Population Genetics
 \begin{frame}
   \frametitle{Population Genetics}
+  \textbf{Population genetics} study dynamics of allele distribution, or type of each organism.  Suppose we have $n$ types, the possibility of passing each type to child is given by:
+  \[ P\left(\text{child is type } i \:|\: \text{parents are types } j, k\right) = P_{ijk} \]
+  \begin{itemize}
+  	\item Parent ordering doesn't matter, have natural symmetry $P_{ijk}=P_{ikj}$.
+  	\item Spacey walk models how population dynamics evolve over time.
+  	\item Stationary type distribution satisfies ${\bf x}_i = \sum_{jk}P_{ijk}x_jx_k$.
+  \end{itemize}
+
 \end{frame}
+
+% Taxicab model
+\begin{frame}
+	\frametitle{Taxi Trajectory Modeling}
+	\begin{columns}
+		\begin{column}{0.3\linewidth}
+			\includegraphics[width=\linewidth]{images/nytaxi.png}
+			\begin{tiny}
+				\begin{center}
+					(Benson, Gleich, Lim)
+				\end{center}
+			\end{tiny}
+		\end{column}
+
+		\begin{column}{0.7\linewidth}
+		\begin{itemize}
+			\item Model taxicab as \textbf{spacey walk} $\mathcal{P}_{ijk}$, with $N$ states being possible locations.
+			\item Passenger at location $k$ gets picked up at $j$ and goes to $i$ with probability $P_{ijk}$.
+			\item Assume passengers are likely to be picked up nearby where they are dropped off, i.e. at airport.
+			\item Difficult to solve, higher order gives better performance (RMSE) than first order:
+		\end{itemize}
+		\begin{tabular}{|ccc|}
+			\hline
+			First Order & Second Order & Spacey Walk \\
+			\hline
+			0.846 & 0.835 & 0.835 \\
+			\hline
+		\end{tabular}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+% Conclusion
+\begin{frame}
+	\frametitle{Conclusion}
+	\begin{itemize}
+		\item Introduce high order Markov chain as having \textbf{memory of previous states}.
+		\item High order Markov chains can be represented as \textbf{tensor} of transition probabilities.
+		\item Tensor form naturally emits eigenvector steady-state.
+		\item Z-eigenvector is the limiting distribution of the \textbf{spacey random walk}.
+		\item Random walk can be turned into equivalent ODE construction.
+		\item We can solve an ODE to find the tensor eigenvector!
+		\item The Spacey walk is a generalization of the \textbf{P\'{o}lya process}, has interesting applications.
+	\end{itemize}
+\end{frame}
+
 
 % References
 \begin{frame}
