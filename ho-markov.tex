@@ -205,9 +205,9 @@ Transition probability indexed by $P_{i_{(n+1)},i_{(n)},i_{(n-1)},\ldots,i_{(n-m
         P_{211} & p_{221} & p_{212} & p_{222}
       \end{array}
     \right]
- \]	
+ \]
 \item Each slice is referred to as a \textbf{panel}, enumerates transition probabilities given some previous state.
- 
+
 \item Note each panel is its own \textbf{stochastic matrix}.
 \end{itemize}
 \end{frame}
@@ -366,10 +366,36 @@ P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
     \begin{column}{0.5\linewidth}
       Forward-stepping ODE
       \[ \frac{d{\bf x}}{dt} = \pi\left({\bf M}\left({\bf x}\right)\right) - {\bf x} \]
-      with Euler converges to analytical solution $\begin{bmatrix} \left(\sqrt{2}-1\right)/2 & \left(3-\sqrt{5}\right)/2  \end{bmatrix}^T$.
+      with Euler converges to analytical solution $\begin{bmatrix} \left(\sqrt{5}-1\right)/2 & \left(3-\sqrt{5}\right)/2  \end{bmatrix}^T$.
     \end{column}
   \end{columns}
 \end{frame}
+
+
+% Power VS Euler
+\begin{frame}
+  \frametitle{Solution to Steady State (contd)}
+  \[ \mathcal{F}_{\left(1\right)} =
+    \left[
+      \begin{array}{@{}cc|cc@{}}
+        0 & 1 & 1 & 1 \\
+        1 & 0 & 0 & 0
+      \end{array}
+    \right]
+  \]
+  Both methods, with starting guess of ${\bf x} = \begin{bmatrix}\frac{1}{2} & \frac{1}{2}\end{bmatrix}^T$:
+
+  \begin{columns}
+    \begin{column}{0.5\linewidth}
+      \includegraphics[width=\linewidth]{images/power.png}
+    \end{column}
+
+    \begin{column}{0.5\linewidth}
+      \includegraphics[width=\linewidth]{images/euler.png}
+    \end{column}
+  \end{columns}
+\end{frame}
+
 
 % Population Genetics
 \begin{frame}
@@ -413,6 +439,16 @@ P\left(X\left(n+1\right) = i \:|\: X(n) = j, Y(n) = k\right) = P_{ijk}
 		\end{tabular}
 		\end{column}
 	\end{columns}
+\end{frame}
+
+% Ranking and clustering
+\begin{frame}
+  \frametitle{Ranking and Clustering}
+  Can extend ``classical'' PageRank to \textbf{multilinear PageRank}, z-eigenvector problem:
+  \[ {\bf x} = \alpha\mathcal{P}_{\left(1\right)} \left({\bf x} \otimes {\bf x}\right) + \left(1-\alpha\right)\mathbf{v} \]
+  where ${\bf v} \in \mathbb{R}^n$ is the \textbf{teleport vector}, and $1-\alpha$ is the probability of teleporting to a random state. Unique steady state when $\alpha<\frac{1}{m-1}$, forward euler converges as $h\to 0$.
+  \newline\newline\par
+  Can also use this for clustering -- partitioning graph into sets of similar nodes.
 \end{frame}
 
 % Conclusion
